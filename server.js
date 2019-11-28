@@ -1,14 +1,15 @@
-require('dotenv').config()
+require('dotenv').config();
 const express = require('express');
 const app = express();
 const path = require('path');
-const mongoose = require('mongoose');
-const morgan = require('morgan'); // used to see requests
+const morgan = require('morgan');
+
 const db = require('./models');
+
 const PORT = process.env.PORT || 3001;
 
-const isAuthenticated = require("./config/isAuthenticated");
-const auth = require("./config/auth");
+const isAuthenticated = require('./config/isAuthenticated');
+const auth = require('./config/auth');
 
 // Setting CORS so that any website can
 // Access our API
@@ -25,12 +26,6 @@ app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-mongoose
-  .connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/appDB', {useNewUrlParser: true, useCreateIndex: true})
-  .then(() => console.log("MongoDB Connected!"))
-  .catch(err => console.error(err));
-
-
 // LOGIN ROUTE
 app.post('/api/login', (req, res) => {
   auth
@@ -43,46 +38,43 @@ app.post('/api/login', (req, res) => {
 app.post('/api/signup', (req, res) => {
   db.User.create(req.body)
     .then(data => res.json(data))
-    .catch(err => res.status(400).json(err));
+    .catch(err => {
+      const message = err.parent.errno === 1062 ? "Duplicate entry" : "Server error";
+      res.status(404).send({ success: false, message });
+  });
 });
 
 // Any route with isAuthenticated is protected and you need a valid token
 // to access
 app.get('/api/user/:id', isAuthenticated, (req, res) => {
-  db.User.findById(req.params.id).then(data => {
-    if(data) {
-      res.json(data);
-    } else {
-      res.status(404).send({success: false, message: 'No user found'});
-    }
-  }).catch(err => res.status(400).send(err));
+  db.User.findByPk(req.params.id)
+    .then(data => {
+      if (data) res.json(data);
+      else res.status(404).send({ success: false, message: 'No user found' });
+    })
+    .catch(err => res.status(400).send(err));
 });
 
-// Serve up static assets (usually on heroku)
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static("client/build"));
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static('client/build'));
 }
 
-app.get('/', isAuthenticated /* Using the express jwt MW here */, (req, res) => {
-  res.send('You are authenticated'); //Sending some response when authenticated
-});
+app.get('/', isAuthenticated, (req, res) => 
+  res.send('You are authenticated')
+);
 
-// Error handling
-app.use(function (err, req, res, next) {
-  if (err.name === 'UnauthorizedError') { // Send the error rather than to show it on the console
+app.use((err, req, res, next) => {
+  if (err.name === 'UnauthorizedError')
     res.status(401).send(err);
-  }
-  else {
+  else
     next(err);
-  }
 });
 
-// Send every request to the React app
-// Define any API routes before this runs
-app.get("*", function(req, res) {
-  res.sendFile(path.join(__dirname, "./client/build/index.html"));
-});
+app.get('*', (req, res) => 
+  res.sendFile(path.join(__dirname, './client/build/index.html'))
+);
 
-app.listen(PORT, function() {
-  console.log(`🌎 ==> Server now on port ${PORT}!`);
-});
+db.sequelize
+  .sync()
+  .then(() => app.listen(PORT, () => console.log('App listening on PORT ' + PORT)))
+  .catch(err => console.log(error));

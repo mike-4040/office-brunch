@@ -28,13 +28,14 @@ const UserSchema = new Schema({
   }
 });
 
+// Execute before each user.save() call
 UserSchema.pre('save', function(callback) {
   let user = this;
 
   // Break out if the password hasn't changed
   if (!user.isModified('password')) return callback();
 
-  
+  // Password changed so we need to hash it
   bcrypt.genSalt(5, function(err, salt) {
     if (err) return callback(err);
 

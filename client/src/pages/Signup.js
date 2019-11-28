@@ -12,12 +12,8 @@ class Signup extends Component {
   handleFormSubmit = event => {
     event.preventDefault();
     API.signUpUser(this.state.username, this.state.email, this.state.password)
-      .then(res => {
-        // once the user has signed up
-        // send them to the login page
-        this.props.history.replace('/login');
-      })
-      .catch(err => alert(err));
+      .then(res => this.props.history.replace('/login'))
+      .catch(err => console.log(err.response.data.message));
   };
 
   handleChange = event => {
