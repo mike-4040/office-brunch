@@ -7,11 +7,13 @@ import registerServiceWorker from './registerServiceWorker';
 import { Route, BrowserRouter as Router } from 'react-router-dom';
 import axios from "axios";
 
-// Our Components
 import Login from './pages/Login';
 import Profile from './pages/Profile';
 import Signup from './pages/Signup';
+import Dashboard from './pages/Dashboard';
+
 import Navbar from './components/Navbar';
+import Copyright from './components/Copyright';
 
 // Here is if we have an id_token in localStorage
 if(localStorage.getItem("id_token")) {
@@ -22,11 +24,12 @@ if(localStorage.getItem("id_token")) {
 ReactDOM.render(
     <Router>
         <div>
-            <Navbar />
             <Route exact path="/" component={App} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/signup" component={Signup} />
             <Route exact path="/profile" component={Profile} />
+            <Route exact path="/admin" component={Dashboard} />
+            <Copyright />
         </div>
     </Router>
     , document.getElementById('root')

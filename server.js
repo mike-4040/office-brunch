@@ -6,6 +6,7 @@ const morgan = require('morgan');
 
 const db = require('./models');
 
+// eslint-disable-next-line no-undef
 const PORT = process.env.PORT || 3001;
 
 const isAuthenticated = require('./config/isAuthenticated');
@@ -39,9 +40,9 @@ app.post('/api/signup', (req, res) => {
   db.User.create(req.body)
     .then(data => res.json(data))
     .catch(err => {
-      const message = err.parent.errno === 1062 ? "Duplicate entry" : "Server error";
+      const message = err.parent.errno === 1062 ? 'Duplicate entry' : 'Server error';
       res.status(404).send({ success: false, message });
-  });
+    });
 });
 
 // Any route with isAuthenticated is protected and you need a valid token
@@ -55,6 +56,7 @@ app.get('/api/user/:id', isAuthenticated, (req, res) => {
     .catch(err => res.status(400).send(err));
 });
 
+// eslint-disable-next-line no-undef
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static('client/build'));
 }
@@ -71,10 +73,11 @@ app.use((err, req, res, next) => {
 });
 
 app.get('*', (req, res) => 
+  // eslint-disable-next-line no-undef
   res.sendFile(path.join(__dirname, './client/build/index.html'))
 );
 
 db.sequelize
   .sync()
   .then(() => app.listen(PORT, () => console.log('App listening on PORT ' + PORT)))
-  .catch(err => console.log(error));
+  .catch(err => console.log(err));

@@ -1,4 +1,5 @@
 'use strict';
+/*global __filename, __dirname, process */
 
 const fs = require('fs');
 const path = require('path');
