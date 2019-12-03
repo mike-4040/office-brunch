@@ -78,6 +78,6 @@ app.get('*', (req, res) =>
 );
 
 db.sequelize
-  .sync()
+  .sync({force: false})
   .then(() => app.listen(PORT, () => console.log('App listening on PORT ' + PORT)))
   .catch(err => console.log(err));
