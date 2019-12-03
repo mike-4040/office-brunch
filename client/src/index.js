@@ -12,7 +12,7 @@ import Profile from './pages/Profile';
 import Signup from './pages/Signup';
 import Dashboard from './pages/Dashboard';
 
-import Navbar from './components/Navbar';
+// import Navbar from './components/Navbar';
 import Copyright from './components/Copyright';
 
 // Here is if we have an id_token in localStorage
