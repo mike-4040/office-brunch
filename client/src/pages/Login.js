@@ -28,7 +28,7 @@ class Login extends Component {
     event.preventDefault();
 
     this.Auth.login(this.state.email, this.state.password)
-      .then(res => this.props.history.replace(`/profile`))
+      .then(res => this.props.history.replace('/admin'))
       .catch(err => console.log(alert(err.response.data.message)));
   };
 
@@ -42,7 +42,7 @@ class Login extends Component {
   render() {
     const { classes } = this.props;
     if (this.Auth.loggedIn()) {
-      return <Redirect to='/' />;
+      return <Redirect to='/admin' />;
     }
 
     return (
