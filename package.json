@@ -11,7 +11,8 @@
     "install": "cd client && npm install",
     "build": "cd client && npm run build",
     "heroku-postbuild": "npm run build",
-    "seed:companies": "node seeds/seedCompanies"
+    "seed:companies": "node seeds/seedCompanies",
+    "seed:models": "node seeds/syncModels"
   },
   "author": "",
   "license": "ISC",
