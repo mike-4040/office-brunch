@@ -12,7 +12,7 @@ import Profile from './pages/Profile';
 import Signup from './pages/Signup';
 import Dashboard from './pages/Dashboard';
 
-import Navbar from './components/Navbar';
+import LinkPage from './test/LinkPage';
 import Copyright from './components/Copyright';
 
 // Here is if we have an id_token in localStorage
@@ -25,6 +25,7 @@ ReactDOM.render(
     <Router>
         <div>
             <Route exact path="/" component={App} />
+            <Route exact path="/test" component={LinkPage} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/signup" component={Signup} />
             <Route exact path="/profile" component={Profile} />
