@@ -10,12 +10,15 @@
     "client": "cd client && npm run start",
     "install": "cd client && npm install",
     "build": "cd client && npm run build",
-    "heroku-postbuild": "npm run build"
+    "heroku-postbuild": "npm run build",
+    "seed:companies": "node seeds/seedCompanies"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "concurrently": "^5.0.0",
+    "eslint-plugin-flowtype": "^4.5.2",
+    "eslint-plugin-import": "^2.18.2",
     "nodemon": "^1.19.4",
     "sequelize-cli": "^5.5.1"
   },
