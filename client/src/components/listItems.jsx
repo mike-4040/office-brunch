@@ -59,7 +59,7 @@ const secondaryItems = [
 export const mainListItems = (
   <List>
     {menuItems.map(item => (
-      <MenuItem item={item} />
+      <MenuItem key={item.text} item={item} />
     ))}
   </List>
 );
@@ -68,7 +68,7 @@ export const secondaryListItems = (
   <List>
     <ListSubheader inset>Saved reports</ListSubheader>
     {secondaryItems.map(item => (
-      <MenuItem item={item} />
+      <MenuItem key={item.text} item={item} />
     ))}
   </List>
 );
