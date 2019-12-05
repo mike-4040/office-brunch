@@ -32,7 +32,6 @@ class Signup extends Component {
     event.preventDefault();
     const user = { ...this.state };
     delete user.companies;
-    console.log(user);
 
     API.signUpUser(user)
       .then(res => this.props.history.replace('/login'))
