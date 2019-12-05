@@ -4,10 +4,8 @@ import { Redirect } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import InputLabel from '@material-ui/core/InputLabel';
 import Link from '@material-ui/core/Link';
 import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/styles';
@@ -21,17 +19,22 @@ class Signup extends Component {
   constructor() {
     super();
     this.Auth = new AuthService();
+    this.state = { companies: [], CompanyId: '' };
   }
 
-  componentDidMount() { 
+  componentDidMount() {
     API.getCompanies()
-      .then(res => console.log(res.data))
+      .then(res => this.setState({ companies: res.data }))
       .catch(err => console.log(err.response.data.message));
-  };
+  }
 
   handleFormSubmit = event => {
     event.preventDefault();
-    API.signUpUser(this.state.username, this.state.email, this.state.password)
+    const user = { ...this.state };
+    delete user.companies;
+    console.log(user);
+
+    API.signUpUser(user)
       .then(res => this.props.history.replace('/login'))
       .catch(err => console.log(err.response.data.message));
   };
@@ -46,9 +49,8 @@ class Signup extends Component {
   render() {
     const { classes } = this.props;
 
-    if (this.Auth.loggedIn())
-      return <Redirect to='/' />;
-    
+    if (this.Auth.loggedIn()) return <Redirect to='/' />;
+
     return (
       <Container component='main' maxWidth='xs'>
         <CssBaseline />
@@ -58,21 +60,6 @@ class Signup extends Component {
           </Typography>
 
           <form className={classes.form} onSubmit={this.handleFormSubmit}>
-            <InputLabel shrink id='companyLabel' variant='filled'>
-              Company
-            </InputLabel>
-            <Select
-              variant='outlined'
-              margin='normal'
-              fullWidth
-              labelId='companyLabel'
-              id='company'
-              name='companyId'
-              onChange={this.handleChange}>
-              <MenuItem value={10}>Ten</MenuItem>
-              <MenuItem value={20}>Twenty</MenuItem>
-              <MenuItem value={30}>Thirty</MenuItem>
-            </Select>
             <TextField
               variant='outlined'
               margin='normal'
@@ -120,6 +107,21 @@ class Signup extends Component {
               autoComplete='current-password'
               onChange={this.handleChange}
             />
+            <TextField
+              variant='outlined'
+              margin='normal'
+              select
+              fullWidth
+              id='companyId'
+              label='Company'
+              name='CompanyId'
+              value={this.state.CompanyId}
+              onChange={this.handleChange}>
+              <MenuItem value={0}>None</MenuItem>
+              {this.state.companies.map(company => (
+                <MenuItem key={company.id} value={company.id}>{company.companyName}</MenuItem>
+              ))}
+            </TextField>
             <Button
               type='submit'
               fullWidth
