@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 
+import Avatar from '@material-ui/core/Avatar';
+import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -8,6 +10,7 @@ import Link from '@material-ui/core/Link';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
+import LocalDiningIcon from '@material-ui/icons/LocalDining';
 import { withStyles } from '@material-ui/styles';
 
 import useStyles from '../styles/style';
@@ -54,10 +57,16 @@ class Signup extends Component {
       <Container component='main' maxWidth='xs'>
         <CssBaseline />
         <div className={classes.paper}>
-          <Typography component='h1' variant='h5'>
-            Signup
-          </Typography>
-
+          <Box display='flex' justifyContent='center' mt={3}>
+            <Avatar className={classes.avatar}>
+              <LocalDiningIcon />
+            </Avatar>
+          </Box>
+          <Box display='flex' justifyContent='center'>
+            <Typography component='h1' variant='h5'>
+              Sign up
+            </Typography>
+          </Box>
           <form className={classes.form} onSubmit={this.handleFormSubmit}>
             <TextField
               variant='outlined'
@@ -115,10 +124,13 @@ class Signup extends Component {
               label='Company'
               name='CompanyId'
               value={this.state.CompanyId}
-              onChange={this.handleChange}>
+              onChange={this.handleChange}
+            >
               <MenuItem value={0}>None</MenuItem>
               {this.state.companies.map(company => (
-                <MenuItem key={company.id} value={company.id}>{company.companyName}</MenuItem>
+                <MenuItem key={company.id} value={company.id}>
+                  {company.companyName}
+                </MenuItem>
               ))}
             </TextField>
             <Button
@@ -126,7 +138,8 @@ class Signup extends Component {
               fullWidth
               variant='contained'
               color='primary'
-              className={classes.submit}>
+              className={classes.submit}
+            >
               Sign Up
             </Button>
           </form>
