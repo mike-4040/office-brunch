@@ -63,6 +63,15 @@ app.get('/api/user/:id', isAuthenticated, (req, res) => {
     .catch(err => res.status(400).send(err));
 });
 
+app.get('/api/user', isAuthenticated, (req, res) => {
+  db.User.findAll()
+    .then(data => {
+      if (data) res.json(data);
+      else res.status(404).send({ success: false, message: 'No user found' });
+    })
+    .catch(err => res.status(400).send(err));
+});
+
 // eslint-disable-next-line no-undef
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static('client/build'));

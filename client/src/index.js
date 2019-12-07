@@ -11,6 +11,7 @@ import Login from './pages/Login';
 import Profile from './pages/Profile';
 import Signup from './pages/Signup';
 import Dashboard from './pages/Dashboard';
+import Users from './pages/Users';
 
 import Copyright from './components/Copyright';
 
@@ -28,6 +29,7 @@ ReactDOM.render(
             <Route exact path="/signup" component={Signup} />
             <Route exact path="/profile" component={Profile} />
             <Route exact path="/admin" component={Dashboard} />
+            <Route exact path='/users' component={Users} />
             <Copyright />
         </div>
     </Router>

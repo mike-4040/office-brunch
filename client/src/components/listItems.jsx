@@ -23,8 +23,8 @@ const menuItems = [
   },
   {
     icon: <PeopleIcon />,
-    text: 'Customers',
-    link: '/login'
+    text: 'Users',
+    link: '/users'
   },
   {
     icon: <BarChartIcon />,
