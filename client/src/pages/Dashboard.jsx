@@ -2,11 +2,9 @@ import React from 'react';
 import clsx from 'clsx';
 
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import Badge from '@material-ui/core/Badge';
 import Container from '@material-ui/core/Container';
@@ -14,15 +12,14 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 
 import MenuIcon from '@material-ui/icons/Menu';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 
 import withAuth from './../components/withAuth';
 
-import { mainListItems, secondaryListItems } from '../components/listItems';
 import Chart from '../components/Chart';
 import Deposits from '../components/Deposits';
 import Orders from '../components/Orders';
+import MyDrawer from '../components/MyDrawer';
 
 import useStyles from '../styles/dashboardStyle';
 
@@ -61,23 +58,7 @@ function Dashboard() {
           </IconButton>
         </Toolbar>
       </AppBar>
-      <Drawer
-        variant='permanent'
-        classes={{
-          paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose)
-        }}
-        open={open}
-      >
-        <div className={classes.toolbarIcon}>
-          <IconButton onClick={handleDrawerClose}>
-            <ChevronLeftIcon />
-          </IconButton>
-        </div>
-        <Divider />
-        {mainListItems}
-        <Divider />
-        {secondaryListItems}
-      </Drawer>
+      <MyDrawer open={open} handleClose={handleDrawerClose}/>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth='lg' className={classes.container}>
@@ -101,9 +82,6 @@ function Dashboard() {
               </Paper>
             </Grid>
           </Grid>
-          {/* <Box pt={4}>
-            <Copyright />
-          </Box> */}
         </Container>
       </main>
     </div>
