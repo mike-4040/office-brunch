@@ -3,7 +3,11 @@ const mysql = require('mysql');
 // eslint-disable-next-line no-undef
 const env = process.env.NODE_ENV || 'development';
 // eslint-disable-next-line no-undef
-const config = require(__dirname + '/../config/config.json')[env];
+let config = require(__dirname + '/../config/config.json')[env];
+
+config = config.use_env_variable || config;
+
+console.log('Config:', config);
 
 const connection = mysql.createConnection(config);
 
