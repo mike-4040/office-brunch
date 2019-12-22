@@ -1,3 +1,4 @@
+/* global process */
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
@@ -11,16 +12,15 @@ const Users = {
     ),
   auth: (email, password, cb) => {
     connection.query(
-      'SELECT id, firstName, lastName, password FROM users WHERE email = ? LIMIT 1;',
+      'SELECT id, firstName, lastName, password FROM Users WHERE email = ? LIMIT 1;',
       [email],
       (err, res) => {
+        if (err) return cb({ code: 1, message: 'Server Error' });
         const user = res[0];
-        if (err) cb({ code: 1, message: 'Server Error' });
-        else if (!user) cb({ code: 2, message: 'User not found' });
-        else if (bcrypt.compareSync(password, res[0].password)) {
+        if (!user) cb({ code: 2, message: 'User not found' });
+        else if (bcrypt.compareSync(password, user.password)) {
           const token = jwt.sign(
             { id: user.id, email, fisrtName: user.firstName },
-            // eslint-disable-next-line no-undef
             process.env.SERVER_SECRET,
             { expiresIn: 129600 }
           );
