@@ -1,11 +1,10 @@
+/*global process __dirname*/
 const mysql = require('mysql');
 
-// eslint-disable-next-line no-undef
 const env = process.env.NODE_ENV || 'development';
-// eslint-disable-next-line no-undef
-let config = require(__dirname + '/../config/config.json')[env];
 
-config = config.use_env_variable || config;
+let config = require(__dirname + '/../config/config.json')[env];
+config = process.env[config.use_env_variable] || config;
 
 console.log('Config:', config);
 
