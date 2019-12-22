@@ -6,5 +6,7 @@ export default {
   signUpUser: user => axios.post('api/signup', user),
 
   // Get a list of all active companies, unprotected
-  getCompanies: () => axios.get('/api/company')
+  getCompanies: () => axios.get('/api/company'),
+
+  users: () => axios.get('/api/users')
 };

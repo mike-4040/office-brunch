@@ -1,5 +1,5 @@
 /* global process */
-const db = require('../models');
+const db = require('../models1');
 const jwt = require('jsonwebtoken');
 
 module.exports = {

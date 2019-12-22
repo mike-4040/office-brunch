@@ -2,18 +2,20 @@ import decode from 'jwt-decode';
 import axios from 'axios';
 export default class AuthService {
   login = (email, password) => {
-    // Get a token
-    return axios.post('api/login', { email: email, password: password }).then(res => {
-      // set the token once the user logs in
-      this.setToken(res.data.token);
+    return axios.post('/api/login', { email, password })
+    .then(({data}) => {
+  
+      if (data.code === 0) 
+        this.setToken(data.token);
+
       // return the rest of the response
-      return res;
+      return data;
     });
   };
 
   getProfile = () => {
     return decode(this.getToken());
-  };
+  }
 
   loggedIn() {
     // Checks if there is a saved token and it's still valid

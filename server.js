@@ -4,13 +4,14 @@ const app = express();
 const path = require('path');
 const morgan = require('morgan');
 
-const db = require('./models');
+const db = require('./models1');
+const Users = require('./models/Users');
 
 // eslint-disable-next-line no-undef
 const PORT = process.env.PORT || 3001;
 
 const isAuthenticated = require('./config/isAuthenticated');
-const auth = require('./config/auth');
+// const auth = require('./config/auth');
 
 // Setting CORS so that any website can
 // Access our API
@@ -28,11 +29,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // LOGIN ROUTE
-app.post('/api/login', (req, res) => {
-  auth
-    .logUserIn(req.body.email, req.body.password)
-    .then(dbUser => res.json(dbUser))
-    .catch(err => res.status(400).json(err));
+// app.post('/api/login', (req, res) => {
+//   auth
+//     .logUserIn(req.body.email, req.body.password)
+//     .then(dbUser => res.json(dbUser))
+//     .catch(err => res.status(400).json(err));
+// });
+app.post('/api/login', ({body}, res) => {
+  Users.auth(body.email, body.password, result => res.json(result));
 });
 
 // SIGNUP ROUTE
@@ -47,6 +51,7 @@ app.post('/api/signup', (req, res) => {
 
 // unprotected list of companies
 app.get('/api/company', (req, res) => {
+  console.log('companies requested');
   db.Company.findAll()
     .then(data => res.json(data))
     .catch(err => res.status(400).json(err));
@@ -64,12 +69,22 @@ app.get('/api/user/:id', isAuthenticated, (req, res) => {
 });
 
 app.get('/api/user', isAuthenticated, (req, res) => {
+  console.log('\nRequest at /api/user\n');
   db.User.findAll()
     .then(data => {
       if (data) res.json(data);
       else res.status(404).send({ success: false, message: 'No user found' });
     })
     .catch(err => res.status(400).send(err));
+});
+
+app.get('/api/users', (req, res) => {
+  console.log('got request');
+  Users.all( data => {
+    console.log(JSON.stringify(data));
+    if (data) res.json(data);
+    else res.status(404).send({ success: false, message: 'No user found' });
+  });
 });
 
 // eslint-disable-next-line no-undef

@@ -15,21 +15,30 @@ import Typography from '@material-ui/core/Typography';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { withStyles } from '@material-ui/styles';
 
-import useStyles from '../styles/style'
+import useStyles from '../styles/style';
 
 import AuthService from './../components/AuthService';
+import Alert from './../components/Alert';
 
 class Login extends Component {
   constructor() {
     super();
     this.Auth = new AuthService();
+    this.state = {
+      alertOpen: false,
+      errMsg: ''
+    };
   }
 
   handleFormSubmit = event => {
     event.preventDefault();
 
     this.Auth.login(this.state.email, this.state.password)
-      .then(res => this.props.history.replace('/admin'))
+      .then(res => {
+        if (res.code === 0) this.props.history.replace('/admin');
+        else
+          this.setState({ alertOpen: true, errMsg: res.message });
+      })
       .catch(err => console.log(alert(err.response.data.message)));
   };
 
@@ -40,12 +49,15 @@ class Login extends Component {
     });
   };
 
+  handleAlertClose = () => {
+    this.setState({ alertOpen: false });
+  };
+
   render() {
     const { classes } = this.props;
-    if (this.Auth.loggedIn()) {
+    if (this.Auth.loggedIn())
       return <Redirect to='/admin' />;
-    }
-
+  
     return (
       <Container component='main' maxWidth='xs'>
         <CssBaseline />
@@ -84,6 +96,11 @@ class Login extends Component {
             <FormControlLabel
               control={<Checkbox value='remember' color='primary' />}
               label='Remember me'
+            />
+            <Alert
+              open={this.state.alertOpen}
+              handler={this.handleAlertClose}
+              message={this.state.errMsg}
             />
             <Button
               type='submit'
