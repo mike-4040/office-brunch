@@ -18,34 +18,48 @@ import useStyles from '../styles/style';
 import AuthService from './../components/AuthService';
 import API from './../utils/API';
 
+import Alert from './../components/Alert';
+
 class Signup extends Component {
   constructor() {
     super();
     this.Auth = new AuthService();
-    this.state = { companies: [], CompanyId: '' };
+    this.state = {
+      companies: [],
+      user: { CompanyId: '' },
+      alertOpen: false,
+      errMsg: ''
+    };
   }
 
   componentDidMount() {
     API.getCompanies()
-      .then(res => this.setState({ companies: res.data }))
+      .then(({ data }) => {
+        if (data.code) this.setState({ alertOpen: true, errMsg: data.payload });
+        else this.setState({ companies: data.payload });
+      })
       .catch(err => console.log(err.response.data.message));
   }
 
   handleFormSubmit = event => {
     event.preventDefault();
-    const user = { ...this.state };
-    delete user.companies;
-
-    API.signUpUser(user)
-      .then(res => this.props.history.replace('/login'))
+    API.signUpUser(this.state.user)
+      .then(({ data }) => {
+        if (data.code) this.setState({ alertOpen: true, errMsg: data.message });
+        else this.props.history.replace('/login');
+      })
       .catch(err => console.log(err.response.data.message));
   };
 
   handleChange = event => {
     const { name, value } = event.target;
     this.setState({
-      [name]: value
+      user: { ...this.state.user, [name]: value }
     });
+  };
+
+  handleAlertClose = () => {
+    this.setState({ alertOpen: false });
   };
 
   render() {
@@ -123,7 +137,7 @@ class Signup extends Component {
               id='companyId'
               label='Company'
               name='CompanyId'
-              value={this.state.CompanyId}
+              value={this.state.user.CompanyId}
               onChange={this.handleChange}
             >
               <MenuItem value={0}>None</MenuItem>
@@ -142,6 +156,11 @@ class Signup extends Component {
             >
               Sign Up
             </Button>
+            <Alert
+              open={this.state.alertOpen}
+              handler={this.handleAlertClose}
+              message={this.state.errMsg}
+            />
           </form>
           <Link href='/login' variant='body2'>
             {'Have an account? Log In'}
