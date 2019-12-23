@@ -8,5 +8,5 @@ export default {
   // Get a list of all active companies, unprotected
   getCompanies: () => axios.get('/api/company'),
 
-  users: () => axios.get('/api/users')
+  users: () => axios.get('/api/user')
 };

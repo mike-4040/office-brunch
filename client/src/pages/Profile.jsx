@@ -6,15 +6,15 @@ import { Link } from 'react-router-dom';
 class Profile extends Component {
 
   state = {
-    username: "",
-    email: ""
+    username: '',
+    email: ''
   };
 
   componentDidMount() {
-    API.getUser(this.props.user.id).then(res => {
+    API.getUser(this.props.user.id).then(({data}) => {
       this.setState({
-        username: res.data.username,
-        email: res.data.email
+        username: data.username,
+        email: data.email
       })
     });
   }
