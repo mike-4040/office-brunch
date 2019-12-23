@@ -36,10 +36,12 @@ class Login extends Component {
     this.Auth.login(this.state.email, this.state.password)
       .then(res => {
         if (res.code === 0) this.props.history.replace('/admin');
-        else
-          this.setState({ alertOpen: true, errMsg: res.message });
+        else this.setState({ alertOpen: true, errMsg: res.message });
       })
-      .catch(err => console.log(alert(err.response.data.message)));
+      .catch(err =>
+        this.setState({ alertOpen: true, errMsg: err})
+      );
+    // .catch(err => console.log(alert(err.response.data.message)));
   };
 
   handleChange = event => {
@@ -55,9 +57,8 @@ class Login extends Component {
 
   render() {
     const { classes } = this.props;
-    if (this.Auth.loggedIn())
-      return <Redirect to='/admin' />;
-  
+    if (this.Auth.loggedIn()) return <Redirect to='/admin' />;
+
     return (
       <Container component='main' maxWidth='xs'>
         <CssBaseline />
