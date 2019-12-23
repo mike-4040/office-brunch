@@ -3,7 +3,7 @@ const connection = require('./connection');
 const Company = {
   all: cb =>
     connection.query(
-      'SELECT id, companyName FROM o_brunch_dev.Companies WHERE active = 1 AND admin = 0',
+      'SELECT id, companyName FROM Companies WHERE active = 1 AND admin = 0',
       (err, res) => {
         let reply = {};
         if (err)
