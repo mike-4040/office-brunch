@@ -57,6 +57,21 @@ const Users = {
         cb({ code: 0, message: res.insertId });
       }
     );
+  },
+  findById: (id, cb) => {
+    const query = 'SELECT firstName, lastName, email, CompanyId FROM users WHERE id = ?';
+    connection.query(
+      query,
+      [id],
+      (err, res) => {
+        let reply = {};
+        if (err) reply = { code: 1, message: 'Database error', payload: err };
+        else if (res.length === 0)
+          reply = { code: 2, message: 'No user found' };
+        else reply = { code: 0, payload: res };
+        cb(reply);
+      }
+    );
   }
 };
 
