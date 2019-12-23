@@ -14,8 +14,7 @@ const PORT = process.env.PORT || 3001;
 const isAuthenticated = require('./config/isAuthenticated');
 // const auth = require('./config/auth');
 
-// Setting CORS so that any website can
-// Access our API
+// Setting CORS so that any website can access our API
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Headers', 'Content-type,Authorization');
@@ -62,7 +61,6 @@ app.get('/api/user', isAuthenticated, (req, res) => {
 });
 
 app.get('/api/users', (req, res) => {
-  console.log('got request');
   Users.all(data => {
     console.log(JSON.stringify(data));
     if (data) res.json(data);

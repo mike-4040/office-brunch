@@ -7,7 +7,7 @@ const Company = {
       (err, res) => {
         let reply = {};
         if (err)
-          reply = { code: 1, payload: 'Database Error' };
+          reply = { code: 1, payload: 'Database Error', err };
         else if (res.length === 0)
           reply = { code: 2, payload: 'No Companies in DB' };
         else
