@@ -14,7 +14,7 @@ import Paper from '@material-ui/core/Paper';
 import MenuIcon from '@material-ui/icons/Menu';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 
-import withAuth from './../components/withAuth';
+import withAuth from './../utils/withAuth';
 
 import Chart from '../components/Chart';
 import Deposits from '../components/Deposits';

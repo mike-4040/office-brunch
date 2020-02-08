@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import AuthService from './components/AuthService';
-import withAuth from './components/withAuth';
+import AuthService from './utils/AuthService';
+import withAuth from './utils/withAuth';
 
 const Auth = new AuthService();
 

@@ -13,9 +13,9 @@ import Typography from '@material-ui/core/Typography';
 import LocalDiningIcon from '@material-ui/icons/LocalDining';
 import { withStyles } from '@material-ui/styles';
 
-import useStyles from '../styles/style';
+import useStyles from '../styles/loginStyle';
 
-import AuthService from './../components/AuthService';
+import AuthService from './../utils/AuthService';
 import API from './../utils/API';
 
 import Alert from './../components/Alert';
