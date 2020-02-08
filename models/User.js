@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 
 const connection = require('./connection');
 
-const Users = {
+const User = {
   all: cb =>
     connection.query(
       'SELECT firstName, lastName, email FROM users',
@@ -75,4 +75,4 @@ const Users = {
   }
 };
 
-module.exports = Users;
+module.exports = User;

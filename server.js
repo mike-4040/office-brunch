@@ -5,7 +5,7 @@ const app = express();
 const path = require('path');
 const morgan = require('morgan');
 
-const Users = require('./models/Users');
+const User = require('./models/User');
 const Company = require('./models/Company');
 
 const PORT = process.env.PORT || 3001;
@@ -26,22 +26,22 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.post('/api/login', ({ body }, res) =>
-  Users.auth(body.email, body.password, result => res.json(result))
+  User.auth(body.email, body.password, result => res.json(result))
 );
 
 app.post('/api/signup', ({ body }, res) =>
-  Users.create(body, result => res.json(result))
+  User.create(body, result => res.json(result))
 );
 
 // unprotected list of companies
 app.get('/api/company', (req, res) => Company.all(result => res.json(result)));
 
 app.get('/api/user/:id', isAuthenticated, (req, res) => {
-  Users.findById(req.params.id, result => res.json(result));
+  User.findById(req.params.id, result => res.json(result));
 });
 
 app.get('/api/user', isAuthenticated, (req, res) => {
-  Users.all(data => {
+  User.all(data => {
     if (data) res.json(data);
     else res.status(404).send({ success: false, message: 'No user found' });
   });

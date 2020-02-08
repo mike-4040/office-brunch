@@ -1,0 +1,35 @@
+-- MySQL Workbench Synchronization
+-- Generated: 2020-02-07 19:51
+-- Model: New Model
+-- Version: 1.0
+-- Project: Name of the project
+-- Author: Mikhail Kravtsov
+
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+
+ALTER TABLE `o_brunch_dev`.`Users` 
+DROP FOREIGN KEY `users_ibfk_1`;
+
+ALTER TABLE `o_brunch_dev`.`Companies` 
+DROP COLUMN `updatedAt`,
+DROP COLUMN `createdAt`;
+
+ALTER TABLE `o_brunch_dev`.`Users` 
+DROP COLUMN `updatedAt`,
+DROP COLUMN `createdAt`,
+DROP INDEX `CompanyId` ;
+;
+
+ALTER TABLE `o_brunch_dev`.`Users` 
+ADD CONSTRAINT `fk_Users_Companies`
+  FOREIGN KEY (`CompanyId`)
+  REFERENCES `o_brunch_dev`.`Companies` (`id`)
+  ON DELETE RESTRICT
+  ON UPDATE CASCADE;
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;

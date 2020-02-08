@@ -10,18 +10,15 @@
     "client": "cd client && npm run start",
     "install": "cd client && npm install",
     "build": "cd client && npm run build",
-    "heroku-postbuild": "npm run build",
-    "seed:companies": "node seeds/seedCompanies",
-    "seed:models": "node seeds/syncModels"
+    "heroku-postbuild": "npm run build"
   },
-  "author": "",
+  "author": "Mike Kravtsov",
   "license": "ISC",
   "devDependencies": {
     "concurrently": "^5.0.0",
     "eslint-plugin-flowtype": "^4.5.2",
     "eslint-plugin-import": "^2.18.2",
-    "nodemon": "^1.19.4",
-    "sequelize-cli": "^5.5.1"
+    "nodemon": "^1.19.4"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -33,8 +30,6 @@
     "if-env": "^1.0.4",
     "jsonwebtoken": "^8.5.1",
     "morgan": "^1.9.1",
-    "mysql": "^2.17.1",
-    "mysql2": "^2.0.1",
-    "sequelize": "^5.21.2"
+    "mysql": "^2.17.1"
   }
 }
