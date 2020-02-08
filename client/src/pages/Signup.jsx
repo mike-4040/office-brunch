@@ -15,7 +15,7 @@ import { withStyles } from '@material-ui/styles';
 
 import useStyles from '../styles/style';
 
-import AuthService from './../components/AuthService';
+import AuthService from './../utils/AuthService';
 import API from './../utils/API';
 
 import Alert from './../components/Alert';
