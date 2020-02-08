@@ -15,7 +15,7 @@ import Typography from '@material-ui/core/Typography';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { withStyles } from '@material-ui/styles';
 
-import useStyles from '../styles/style';
+import useStyles from '../styles/loginStyle';
 
 import AuthService from './../utils/AuthService';
 import Alert from './../components/Alert';
