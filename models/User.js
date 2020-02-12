@@ -23,22 +23,23 @@ const User = {
   auth: (email, password, cb) => {
     const query = 'SELECT id, firstName, lastName, password FROM Users WHERE email = ? LIMIT 1';
     connection.query(query, [email], (err, res) => {
-      let reply = {};
-      if (err) {
-        reply = { code: 1, message: 'Database error' };
-        return cb(reply);
-      }
+      
+      if (err)
+        return cb({ code: 1, message: 'Database error' });
+  
+      if (!res[0])
+        return cb({ code: 2, message: 'User not found' });
+    
       const user = toJS(res[0], userMap);
-      if (!user) reply = { code: 2, message: 'User not found' };
-      else if (bcrypt.compareSync(password, user.password)) {
+      if (bcrypt.compareSync(password, user.password)) {
         const token = jwt.sign(
           { id: user.id, email, fisrtName: user.firstName },
           process.env.SERVER_SECRET,
           { expiresIn: 129600 }
         );
-        reply = { code: 0, token };
-      } else reply = { code: 4, message: 'Wrong pasword' };
-      cb(reply);
+        cb({ code: 0, token });
+      } else
+        cb({ code: 4, message: 'Wrong pasword' });
     });
   },
   create: (inUser, cb) => {
