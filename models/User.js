@@ -42,9 +42,8 @@ const User = {
     });
   },
   create: (inUser, cb) => {
-    const user = { ...inUser };
-    user.password = bcrypt.hashSync(user.password, bcrypt.genSaltSync(10), null);
-    const dbUser = toSQL(user, userMap);
+    const dbUser = toSQL(inUser, userMap);
+    dbUser.password = bcrypt.hashSync(dbUser.password, bcrypt.genSaltSync(10), null);
     const query = 'INSERT INTO Users ( ??, ??, ??, ??, ??) VALUES( ?, ?, ?, ?, ?)';
     connection.query(query, [...Object.keys(dbUser), ...Object.values(dbUser)], (err, res) => {
       console.log('ERR', err, 'RES', res);
