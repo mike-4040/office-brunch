@@ -5,7 +5,7 @@ const toJS = (obj, objMap) => {
     if (obj.hasOwnProperty(propSet[1]))
       jsObj[propSet[0]] = obj[propSet[1]];
   });
-  return jsObj;  
+  return jsObj;
 };
 
 const toSQL = (obj, objMap) => {

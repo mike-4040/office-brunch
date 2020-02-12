@@ -1,4 +1,6 @@
 const connection = require('./connection');
+const {companyMap} = require('./maps');
+const { toJS } = require('./jsToSqlMaps');
 
 const Company = {
   all: cb =>
@@ -11,7 +13,7 @@ const Company = {
         else if (res.length === 0)
           reply = { code: 2, payload: 'No Companies in DB' };
         else
-          reply = { code: 0, payload: res };
+          reply = { code: 0, payload: res.map(company => toJS(company, companyMap)) };
         cb(reply);
       }
     )
