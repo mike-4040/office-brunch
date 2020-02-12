@@ -1,5 +1,5 @@
 const connection = require('./connection');
-const {companyMap} = require('./maps');
+const { companyMap } = require('./maps');
 const { toJS } = require('./jsToSqlMaps');
 
 const Company = {
