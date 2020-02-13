@@ -4,7 +4,7 @@ const userMap = [
   ['lastName', 'lastName'],
   ['email', 'email'],
   ['password', 'password'],
-  ['CompanyId', 'CopmanyId']
+  ['CompanyId', 'CompanyId']
 ];
 
 const companyMap = [
