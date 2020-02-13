@@ -10,7 +10,9 @@
     "client": "cd client && npm run start",
     "install": "cd client && npm install",
     "build": "cd client && npm run build",
-    "heroku-postbuild": "npm run build"
+    "heroku-postbuild": "npm run build",
+    "db:backup:local": "mysqldump -u root -p o_brunch_dev > ./database/local_dump.sql",
+    "db:restore:local": "mysql -u root -p o_brunch_dev < ./database/local_dump.sql"
   },
   "author": "Mike Kravtsov",
   "license": "ISC",

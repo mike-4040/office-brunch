@@ -16,7 +16,7 @@ const toJS = (obj, objMap) => {
 
 /**
  * This function maps js object to db object
- * @param {obj} input ij object (camelCase)
+ * @param {obj} input js object (camelCase)
  * @param {objMap} input array of property matching pairs
  * @returns {jsSQL} oblect mapped to sql (snake_case).
  */
