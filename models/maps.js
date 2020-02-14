@@ -1,17 +1,22 @@
+/**
+ * first is JS
+ * second is SQL
+ */
+
 const userMap = [
-  ['id', 'id'],
-  ['firstName', 'firstName'],
-  ['lastName', 'lastName'],
+  ['id', 'user_id'],
+  ['firstName', 'first_name'],
+  ['lastName', 'last_name'],
   ['email', 'email'],
   ['password', 'password'],
-  ['CompanyId', 'CompanyId']
+  ['CompanyId', 'org_id']
 ];
 
-const companyMap = [
-  ['id', 'id'],
-  ['companyName', 'companyName'],
+const orgMap = [
+  ['id', 'org_id'],
+  ['companyName', 'org_name'],
   ['active', 'active'],
   ['admin', 'admin']
 ];
 
-module.exports = { userMap, companyMap };
+module.exports = { userMap, orgMap };

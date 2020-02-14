@@ -10,7 +10,9 @@
     "client": "cd client && npm run start",
     "install": "cd client && npm install",
     "build": "cd client && npm run build",
-    "heroku-postbuild": "npm run build"
+    "heroku-postbuild": "npm run build",
+    "db:backup:local": "mysqldump -u root -p o_brunch_dev > ./database/local_dump.sql",
+    "db:restore:local": "mysql -u root -p o_brunch_dev < ./database/local_dump.sql"
   },
   "author": "Mike Kravtsov",
   "license": "ISC",
@@ -18,6 +20,7 @@
     "concurrently": "^5.0.0",
     "eslint-plugin-flowtype": "^4.5.2",
     "eslint-plugin-import": "^2.18.2",
+    "jsdoc": "~3.6.3",
     "nodemon": "^1.19.4"
   },
   "dependencies": {

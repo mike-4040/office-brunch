@@ -33,7 +33,7 @@ class Signup extends Component {
   }
 
   componentDidMount() {
-    API.getCompanies()
+    API.getOrgs()
       .then(({ data }) => {
         if (data.code) {
           this.setState({ alertOpen: true, errMsg: data.payload });
