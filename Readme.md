@@ -16,7 +16,7 @@ The most similar command is
         branch
 Andreys-MBP:office-brunch drewsov$ git branch
 * helper
-  staging
+  staging 
 Andreys-MBP:office-brunch drewsov$ git add .
 Andreys-MBP:office-brunch drewsov$ git commit
 hint: Waiting for your editor to close the file... 
