@@ -1,0 +1,91 @@
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+
+ALTER TABLE `org`
+DROP COLUMN `admin`,
+MODIFY COLUMN `org_id` INT(11) NOT NULL AUTO_INCREMENT FIRST,
+MODIFY COLUMN `org_name` VARCHAR(50) NOT NULL AFTER `org_id`,
+ADD COLUMN `org_type` INT(11) NOT NULL AFTER `org_name`,
+ADD COLUMN `phone` VARCHAR(10) NULL DEFAULT NULL AFTER `org_status`,
+ADD COLUMN `address_line1` VARCHAR(250) NULL DEFAULT NULL AFTER `phone`,
+ADD COLUMN `address_line2` VARCHAR(250) NULL DEFAULT NULL AFTER `address_line1`,
+ADD COLUMN `zip` VARCHAR(5) NOT NULL AFTER `address_line2`,
+ADD COLUMN `delivery_note` TEXT NULL DEFAULT NULL AFTER `zip`,
+CHANGE COLUMN `active` `org_status` INT(11) NOT NULL DEFAULT '1' ,
+ADD UNIQUE INDEX `org_name_UNIQUE` (`org_name` ASC),
+ADD INDEX `fk_org_zip_idx` (`zip` ASC),
+ADD INDEX `fk_org_org_status_idx` (`org_status` ASC),
+ADD UNIQUE INDEX `org_id_UNIQUE` (`org_id` ASC);
+
+CREATE TABLE IF NOT EXISTS `org_type` (
+  `org_type_id` INT(11) NOT NULL AUTO_INCREMENT,
+  `org_type` VARCHAR(45) NOT NULL,
+  `org_type_desc` VARCHAR(45) NULL DEFAULT NULL,
+  PRIMARY KEY (`org_type_id`),
+  UNIQUE INDEX `org_type_id_UNIQUE` (`org_type_id` ASC),
+  UNIQUE INDEX `org_type_UNIQUE` (`org_type` ASC));
+
+CREATE TABLE IF NOT EXISTS `user_role` (
+  `role_id` INT(11) NOT NULL AUTO_INCREMENT,
+  `role` VARCHAR(45) NOT NULL COMMENT 'User role:\\nConsumer\\nOffice Admin\\nVendor\\nOB Admin',
+  `role_desc` VARCHAR(45) NULL DEFAULT NULL,
+  PRIMARY KEY (`role_id`),
+  UNIQUE INDEX `role_id_UNIQUE` (`role_id` ASC),
+  UNIQUE INDEX `role_UNIQUE` (`role` ASC));
+
+ALTER TABLE `user` 
+MODIFY COLUMN `user_id` INT(11) NOT NULL AUTO_INCREMENT FIRST,
+MODIFY COLUMN `first_name` VARCHAR(50) NOT NULL AFTER `user_id`,
+MODIFY COLUMN `last_name` VARCHAR(50) NULL DEFAULT NULL AFTER `first_name`,
+ADD COLUMN `phone` VARCHAR(10) NULL DEFAULT NULL AFTER `password`,
+ADD COLUMN `active` TINYINT(1) NOT NULL DEFAULT '1' AFTER `phone`,
+MODIFY COLUMN `org_id` INT(11) NOT NULL AFTER `active`,
+ADD COLUMN `role_id` INT(11) NOT NULL AFTER `org_id`,
+ADD INDEX `fk_user_company_idx` (`org_id` ASC),
+ADD INDEX `fk_user_role_idx` (`role_id` ASC),
+ADD UNIQUE INDEX `user_id_UNIQUE` (`user_id` ASC);
+
+CREATE TABLE IF NOT EXISTS `zip` (
+  `zip` VARCHAR(5) NOT NULL,
+  `city` VARCHAR(50) NULL DEFAULT NULL,
+  `state` VARCHAR(2) NULL DEFAULT NULL,
+  PRIMARY KEY (`zip`),
+  UNIQUE INDEX `zip_UNIQUE` (`zip` ASC));
+
+CREATE TABLE IF NOT EXISTS `org_status` (
+  `org_status_id` INT(11) NOT NULL AUTO_INCREMENT,
+  `org_status` VARCHAR(45) NOT NULL,
+  `description` VARCHAR(45) NULL DEFAULT NULL,
+  PRIMARY KEY (`org_status_id`),
+  UNIQUE INDEX `org_status_id_UNIQUE` (`org_status_id` ASC),
+  UNIQUE INDEX `status_name_UNIQUE` (`org_status` ASC));
+
+ALTER TABLE `org` 
+ADD CONSTRAINT `fk_org_zip`
+  FOREIGN KEY (`zip`)
+  REFERENCES `zip` (`zip`)
+  ON DELETE RESTRICT
+  ON UPDATE CASCADE,
+ADD CONSTRAINT `fk_org_org_type`
+  FOREIGN KEY (`org_type`)
+  REFERENCES `org_type` (`org_type_id`)
+  ON DELETE RESTRICT
+  ON UPDATE CASCADE,
+ADD CONSTRAINT `fk_org_org_status`
+  FOREIGN KEY (`org_status`)
+  REFERENCES `org_status` (`org_status_id`)
+  ON DELETE RESTRICT
+  ON UPDATE CASCADE;
+  
+ALTER TABLE `user`   
+ADD CONSTRAINT `fk_user_role`
+  FOREIGN KEY (`role_id`)
+  REFERENCES `user_role` (`role_id`)
+  ON DELETE RESTRICT
+  ON UPDATE CASCADE;
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
