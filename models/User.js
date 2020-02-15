@@ -6,6 +6,18 @@ const connection = require('./connection');
 const { userMap } = require('./maps');
 const { toJS, toSQL } = require('./jsToSqlMaps');
 
+/** @aat  */
+const { decryptPublicToken, mayBeParse, issueToken, decryptToken} = require('../utils/_helpers');
+const moment = require('moment'); 
+const expDays = 7 // 1 one day expired expiration
+
+Date.prototype.addHours = function (h) {
+  this.setHours(this.getHours() + h);
+  return this;
+}
+/** end @aat */
+
+
 const User = {
   all: cb =>
     connection.query(
@@ -64,7 +76,46 @@ const User = {
         reply = { code: 0, payload: toJS(res, userMap) };
       cb(reply);
     });
-  }
+  },
+    /** @aat */
+    preSign:  ({ info }, cb) => {
+      const tokenInfo = mayBeParse(decryptPublicToken(Buffer.from(info, 'base64').toString()));
+      //       
+      console.log("info     ->", info);
+      console.log("decrypt  ->", tokenInfo);
+      //
+      if ( !tokenInfo.hasOwnProperty("digitalSign") || tokenInfo.digitalSign != "I approved that login" ) {
+        cb({
+          code: 1,
+          status: 'error',
+          message: 'Wrong Login' 
+        });
+      }
+      //
+      const playload = {
+        exp: moment().add(expDays, 'days').unix(),  /// days ? 
+        iat: moment().unix(),
+        sub: tokenInfo  //  or may be user after login 
+      }
+      // 
+      const token = issueToken(playload); // not public 
+  
+      console.log("playload ->", info);
+      console.log("decrypt  ->", mayBeParse(decryptToken(Buffer.from(token, 'base64').toString()))); // not public 
+  
+      const infoTime = {
+        now: new Date().addHours(0),
+        expires: new Date().addHours(1) 
+      }
+      // and response here 
+      cb({
+        code: 0,
+        status: 'success',
+        __dyn: token,
+        ttstamp: infoTime.now,
+        expires: infoTime.expires
+      });
+    }
 };
 
 module.exports = User;

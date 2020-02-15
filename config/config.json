@@ -8,12 +8,12 @@
     "dialect": "mysql"
   },
   "development": {
-    "username": "root",
-    "host": "localhost",
+    "username": "s8gjvtb74jaojc3b",
+    "host": "phtfaw4p6a970uc0.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
     "port": 3306,
-    "user": "root",
-    "password": "password",
-    "database": "o_brunch_dev",
+    "user": "s8gjvtb74jaojc3b",
+    "password": "ayirsa5wd4uxqpmf",
+    "database": "tebmbk6q1fe8lug8",
     "dialect": "mysql"
   },
   "test": {
