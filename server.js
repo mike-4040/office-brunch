@@ -47,6 +47,16 @@ app.get('/api/user', isAuthenticated, (req, res) => {
   });
 });
 
+/** @start @aat 02/10/2020 */
+app.post('/api/v1/presign', (req, res) => { 
+  const body = req.body? req.body: {};
+  User.preSign(body, data => {
+    if (data) res.json(data);
+    else res.status(404).send({ success: false, message: 'Error' });
+  }); 
+});
+/** @end */
+
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static('client/build'));
 }
