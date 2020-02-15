@@ -41,3 +41,8 @@ remote:
 To https://github.com/mike-4040/office-brunch.git
  * [new branch]      helper -> helper
 Andreys-MBP:office-brunch drewsov$ 
+
+
+1. git add .
+2. git commit -m "helper update"
+3. git push 
