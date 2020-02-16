@@ -20,6 +20,10 @@ import useStyles from '../styles/loginStyle';
 import AuthService from './../utils/AuthService';
 import Alert from './../components/Alert';
 
+
+/** @aat  */
+import { preSign } from '../utils/auths'
+
 class Login extends Component {
   constructor() {
     super();
@@ -29,6 +33,32 @@ class Login extends Component {
       errMsg: ''
     };
   }
+
+   /** @start @aat 02/11/2020 */
+   componentDidMount() {
+
+    setTimeout(() => {  
+      const playload = {
+        signupAgree: true,
+        digitalSign: "I approved that login",
+        exp: "02/10/2020 timestamp" // moment().add(expDays, 'days').unix(),
+      }
+      //
+      preSign({info: playload}, {}, ({data}) => {
+        console.log(data, data["__dyn"]); 
+
+        if (data.code && data.code > 0) {
+          this.setState({ alertOpen: true, errMsg: data.hasOwnProperty("message")? data.message: "Sign Error"} )
+        } else {
+          sessionStorage.setItem("__dyn", data.hasOwnProperty("__dyn")? data["__dyn"]: null);
+        }
+        
+      }); 
+      //
+    }, 100);
+
+  }
+  /** @end aat */
 
   handleFormSubmit = event => {
     event.preventDefault();

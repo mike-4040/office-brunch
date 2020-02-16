@@ -65,3 +65,7 @@ typings/
 
 # Webstorm
 .idea/
+
+# jsdoc output
+out/
+config/config.json

@@ -6,7 +6,7 @@ const path = require('path');
 const morgan = require('morgan');
 
 const User = require('./models/User');
-const Company = require('./models/Company');
+const Org = require('./models/Org');
 
 const PORT = process.env.PORT || 3001;
 
@@ -34,7 +34,7 @@ app.post('/api/signup', ({ body }, res) =>
 );
 
 // unprotected list of companies
-app.get('/api/company', (req, res) => Company.all(result => res.json(result)));
+app.get('/api/org', (req, res) => Org.all(result => res.json(result)));
 
 app.get('/api/user/:id', isAuthenticated, (req, res) => {
   User.findById(req.params.id, result => res.json(result));
@@ -46,6 +46,16 @@ app.get('/api/user', isAuthenticated, (req, res) => {
     else res.status(404).send({ success: false, message: 'No user found' });
   });
 });
+
+/** @start @aat 02/10/2020 */
+app.post('/api/v1/presign', (req, res) => { 
+  const body = req.body? req.body: {};
+  User.preSign(body, data => {
+    if (data) res.json(data);
+    else res.status(404).send({ success: false, message: 'Error' });
+  }); 
+});
+/** @end */
 
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static('client/build'));
@@ -63,4 +73,3 @@ app.get('*', (req, res) =>
 );
 
 app.listen(PORT, () => console.log('App listening on PORT ' + PORT));
-

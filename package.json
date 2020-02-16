@@ -10,7 +10,9 @@
     "client": "cd client && npm run start",
     "install": "cd client && npm install",
     "build": "cd client && npm run build",
-    "heroku-postbuild": "npm run build"
+    "heroku-postbuild": "npm run build",
+    "db:backup:local": "mysqldump -u root -p o_brunch_dev > ./database/local_dump.sql",
+    "db:restore:local": "mysql -u root -p o_brunch_dev < ./database/local_dump.sql"
   },
   "author": "Mike Kravtsov",
   "license": "ISC",
@@ -18,10 +20,12 @@
     "concurrently": "^5.0.0",
     "eslint-plugin-flowtype": "^4.5.2",
     "eslint-plugin-import": "^2.18.2",
+    "jsdoc": "~3.6.3",
     "nodemon": "^1.19.4"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "crypto-js": "^4.0.0",
     "dotenv": "^8.2.0",
     "eslint": "^6.7.1",
     "eslint-plugin-react": "^7.16.0",
@@ -29,6 +33,7 @@
     "express-jwt": "^5.3.1",
     "if-env": "^1.0.4",
     "jsonwebtoken": "^8.5.1",
+    "moment": "^2.24.0",
     "morgan": "^1.9.1",
     "mysql": "^2.17.1"
   }
