@@ -1,6 +1,6 @@
 {
   "development": {
-    "username": "root",
+    "user": "root",
     "password": "password",
     "database": "o_brunch_dev",
     "host": "127.0.0.1",

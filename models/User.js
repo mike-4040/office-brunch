@@ -94,6 +94,7 @@ const User = {
     console.log('decrypt  ->', tokenInfo);
     //
     if (
+      // per eslint recommendation
       // !tokenInfo.hasOwnProperty('digitalSign') ||
       !Object.prototype.hasOwnProperty.call(tokenInfo, 'digitalSign' ) ||
       tokenInfo.digitalSign != 'I approved that login'
